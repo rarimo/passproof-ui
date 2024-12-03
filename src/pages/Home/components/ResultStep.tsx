@@ -1,12 +1,29 @@
+import { EthereumProvider } from '@distributedlab/w3p'
 import { Button, Divider, Paper, Stack, Typography, useTheme } from '@mui/material'
 
+import { useWeb3State } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
 
 export default function ResultStep() {
   const { palette } = useTheme()
+  const { provider } = useWeb3State()
 
-  const addTokenToMetaMask = () => {
-    // TODO: Add token to MetaMask
+  const addTokenToMetaMask = async () => {
+    const ethereum = provider.rawProvider as EthereumProvider
+    if (!ethereum) return
+
+    await ethereum.request?.({
+      method: 'wallet_watchAsset',
+      params: {
+        // @ts-expect-error - missing types
+        type: 'ERC1155',
+        options: {
+          // TODO: replace with real address and token id
+          address: '0x',
+          tokenId: '2',
+        },
+      },
+    })
   }
 
   return (

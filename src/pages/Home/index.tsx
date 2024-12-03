@@ -17,7 +17,7 @@ enum Steps {
 
 export default function Home() {
   const { isConnected } = useWeb3State()
-  const [step, setStep] = useState<Steps>(isConnected ? Steps.VerifyProof : Steps.ConnectWallet)
+  const [step, setStep] = useState<Steps>(isConnected ? Steps.Result : Steps.ConnectWallet)
 
   const renderStep = () => {
     switch (step) {
