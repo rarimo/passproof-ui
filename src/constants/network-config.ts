@@ -15,18 +15,18 @@ export interface NetworkConfig {
 
 export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
   mainnet: {
-    chainId: 8453,
-    name: 'Base Mainnet',
+    chainId: 1,
+    name: 'Ethereum Mainnet',
     networkName: 'mainnet',
-    rpcUrl: 'https://mainnet.base.org',
-    explorerUrl: 'https://basescan.org',
+    rpcUrl: 'https://ethereum-rpc.publicnode.com',
+    explorerUrl: 'https://etherscan.io',
   },
   testnet: {
-    chainId: 8453,
-    name: 'Base Mainnet',
+    chainId: 11155111,
+    name: 'Sepolia',
     networkName: 'testnet',
-    rpcUrl: 'https://mainnet.base.org',
-    explorerUrl: 'https://basescan.org',
+    rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
+    explorerUrl: 'https://sepolia.etherscan.io',
   },
 }
 

@@ -9,6 +9,7 @@ import { createRouter } from '@/router'
 import { createTheme } from '@/theme'
 
 import ErrorBoundaryFallback from './common/ErrorBoundaryFallback'
+import NetworkWarningProtector from './common/NetworkWarningProtector'
 import { useSystemPaletteMode } from './hooks/system-palette-mode'
 import { useViewportSizes } from './hooks/viewport'
 import { web3Store } from './store/web3'
@@ -49,7 +50,9 @@ const App = () => {
               )}
               onReset={() => window.location.reload()}
             >
-              <RouterProvider router={router} />
+              <NetworkWarningProtector>
+                <RouterProvider router={router} />
+              </NetworkWarningProtector>
             </ErrorBoundary>
           ) : (
             <CircularProgress color='secondary' sx={{ m: 'auto' }} />

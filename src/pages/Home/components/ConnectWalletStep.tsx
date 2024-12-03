@@ -1,6 +1,7 @@
 import { PROVIDERS } from '@distributedlab/w3p'
-import { Button, List, Stack, Typography, useTheme } from '@mui/material'
+import { Button, Link, List, Stack, Typography, useTheme } from '@mui/material'
 
+import { isMetamaskInstalled } from '@/helpers/metamask'
 import { useWeb3State, web3Store } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
 
@@ -38,9 +39,22 @@ export default function ConnectWalletStep({ onConnect }: { onConnect: () => void
             </Typography>
           </List>
         </Stack>
-        <Button fullWidth startIcon={<UiIcon name='metamask' size={5} />} onClick={connectWallet}>
-          Connect MetaMask
-        </Button>
+        {isMetamaskInstalled() ? (
+          <Button fullWidth startIcon={<UiIcon name='metamask' size={5} />} onClick={connectWallet}>
+            Connect MetaMask
+          </Button>
+        ) : (
+          <Button
+            component={Link}
+            href='https://metamask.io'
+            target='_blank'
+            rel='noreferrer'
+            fullWidth
+            startIcon={<UiIcon name='metamask' size={5} />}
+          >
+            Install MetaMask
+          </Button>
+        )}
       </Stack>
     </StepView>
   )
