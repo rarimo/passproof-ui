@@ -1,7 +1,7 @@
 import { Stack, Typography, useTheme } from '@mui/material'
 import { useMemo } from 'react'
 
-import { VerificationStatuses } from '../enums/verification-statuses'
+import { VerificationStatuses } from '@/api/verificator'
 
 export default function VerificationStatusView({ status }: { status: VerificationStatuses }) {
   const { palette } = useTheme()

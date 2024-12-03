@@ -3,11 +3,11 @@ import { useEffect } from 'react'
 import { QRCode } from 'react-qrcode-logo'
 
 import { api } from '@/api/clients'
+import { VerificationStatuses } from '@/api/verificator'
 import LoadingWrapper from '@/common/LoadingWrapper'
 import { sleep } from '@/helpers/promise'
 import { useLoading } from '@/hooks/loading'
 
-import { VerificationStatuses } from '../enums/verification-statuses'
 import StepView from './StepView'
 
 interface Props {
