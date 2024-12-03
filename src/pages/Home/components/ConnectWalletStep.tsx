@@ -1,9 +1,21 @@
+import { PROVIDERS } from '@distributedlab/w3p'
 import { Button, List, Stack, Typography, useTheme } from '@mui/material'
+
+import { useWeb3State, web3Store } from '@/store/web3'
+import UiIcon from '@/ui/UiIcon'
 
 import StepView from './StepView'
 
-export default function IntroStep({ onStart }: { onStart: () => void }) {
+export default function ConnectWalletStep({ onConnect }: { onConnect: () => void }) {
+  const { isConnected } = useWeb3State()
   const { palette } = useTheme()
+
+  const connectWallet = async () => {
+    if (!isConnected) {
+      await web3Store.init(PROVIDERS.Metamask)
+    }
+    onConnect()
+  }
 
   return (
     <StepView title='RariMe Proof Requests' subtitle='Request Proof of Passport'>
@@ -26,7 +38,9 @@ export default function IntroStep({ onStart }: { onStart: () => void }) {
             </Typography>
           </List>
         </Stack>
-        <Button onClick={onStart}>Connect Wallet</Button>
+        <Button fullWidth startIcon={<UiIcon name='metamask' size={5} />} onClick={connectWallet}>
+          Connect MetaMask
+        </Button>
       </Stack>
     </StepView>
   )

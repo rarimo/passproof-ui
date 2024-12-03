@@ -13,6 +13,7 @@ export default function OverlaySpinner(props: StackProps) {
       bgcolor={theme => theme.palette.background.light}
       zIndex={theme => theme.zIndex.modal}
       {...props}
+      sx={{ backdropFilter: 'blur(5px)', ...props.sx }}
     >
       <CircularProgress color='inherit' />
     </Stack>

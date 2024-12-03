@@ -1,4 +1,4 @@
-import { CssBaseline, ThemeProvider } from '@mui/material'
+import { CircularProgress, CssBaseline, ThemeProvider } from '@mui/material'
 import { memo, useCallback, useEffect, useMemo, useState } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { RouterProvider } from 'react-router-dom'
@@ -52,7 +52,7 @@ const App = () => {
               <RouterProvider router={router} />
             </ErrorBoundary>
           ) : (
-            <div>Loading...</div>
+            <CircularProgress color='secondary' sx={{ m: 'auto' }} />
           )}
         </div>
       </ToastsManager>

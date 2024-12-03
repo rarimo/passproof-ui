@@ -2,7 +2,7 @@ import { Box, BoxProps, SxProps } from '@mui/material'
 import { Theme } from '@mui/material/styles'
 import { forwardRef } from 'react'
 
-export type IconName = 'check' | 'warning' | 'info'
+export type IconName = 'check' | 'warning' | 'info' | 'metamask'
 
 interface Props extends BoxProps<'svg'> {
   size?: number
