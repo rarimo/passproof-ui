@@ -1,58 +1,60 @@
 import { Button, Divider, Link, Stack, Typography, useTheme } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { QRCode } from 'react-qrcode-logo'
 
-import { api } from '@/api/clients'
-import { VerificationStatuses } from '@/api/verificator'
+import { getVerifiedProof, requestVerificationLink, ZKProof } from '@/api/verificator'
 import LoadingWrapper from '@/common/LoadingWrapper'
-import { sleep } from '@/helpers/promise'
 import { useLoading } from '@/hooks/loading'
+import { useWeb3State } from '@/store/web3'
 
 import StepView from './StepView'
 
 interface Props {
-  onVerify: () => void
+  onVerify: (proof: ZKProof) => void
 }
 
 export default function QrCodeStep({ onVerify }: Props) {
+  const { connectedAccountAddress } = useWeb3State()
   const { palette } = useTheme()
 
-  const deepLinkLoader = useLoading('', async () => {
-    // TODO: Replace with actual deep link
-    await sleep(2000)
-    return `rarime://proof-request?proofRequestId=1`
+  const proofParamsLoader = useLoading('', async () => {
+    const { get_proof_params } = await requestVerificationLink({
+      id: connectedAccountAddress,
+      event_id: '0x0',
+      uniqueness: true,
+    })
+
+    return get_proof_params
   })
 
-  async function checkVerificationStatus() {
-    try {
-      const { data } = await api.get<{
-        id: string
-        type: string
-        status: VerificationStatuses
-      }>('')
+  const rariMeDeepLink = useMemo(() => {
+    const deepLinkUrl = new URL('rarime://external')
+    deepLinkUrl.searchParams.append('type', 'proof-request')
+    deepLinkUrl.searchParams.append('proof_params_url', proofParamsLoader.data)
 
-      if (data.status === VerificationStatuses.Verified) {
-        onVerify()
-      }
+    return deepLinkUrl.toString()
+  }, [proofParamsLoader.data])
+
+  async function checkVerificationProof() {
+    try {
+      const { proof } = await getVerifiedProof(connectedAccountAddress)
+      onVerify(proof)
     } catch (error) {
       console.error(error)
     }
   }
 
   useEffect(() => {
-    const intervalId = window.setInterval(checkVerificationStatus, 10000)
-
-    return () => {
-      window.clearInterval(intervalId)
-    }
+    const intervalId = window.setInterval(checkVerificationProof, 10000)
+    return () => window.clearInterval(intervalId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <StepView title='Step 2/3' subtitle='Scan QR code with RariMe app and generate proof'>
-      <LoadingWrapper loader={deepLinkLoader}>
+      <LoadingWrapper loader={proofParamsLoader}>
         <Stack spacing={4} alignItems='center'>
-          <QRCode size={240} value={deepLinkLoader.data} />
+          <QRCode size={240} value={rariMeDeepLink} />
           <Stack direction='row' spacing={2} alignItems='center' width='100%'>
             <Divider sx={{ flex: 1 }} />
             <Typography variant='body3' color={palette.text.secondary}>
@@ -60,7 +62,7 @@ export default function QrCodeStep({ onVerify }: Props) {
             </Typography>
             <Divider sx={{ flex: 1 }} />
           </Stack>
-          <Button component={Link} color='primary' href={deepLinkLoader.data} fullWidth>
+          <Button component={Link} color='primary' href={rariMeDeepLink} fullWidth>
             Open in RariMe app
           </Button>
           <Typography variant='body4' color={palette.text.secondary}>

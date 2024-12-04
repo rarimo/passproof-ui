@@ -12,6 +12,7 @@ import ErrorBoundaryFallback from './common/ErrorBoundaryFallback'
 import NetworkWarningProtector from './common/NetworkWarningProtector'
 import { useSystemPaletteMode } from './hooks/system-palette-mode'
 import { useViewportSizes } from './hooks/viewport'
+import { authStore } from './store/auth'
 import { web3Store } from './store/web3'
 
 const router = createRouter()
@@ -25,10 +26,11 @@ const App = () => {
   const init = useCallback(async () => {
     try {
       await web3Store.init()
+      await authStore.verifyToken(web3Store.connectedAccountAddress)
+      setIsAppInitialized(true)
     } catch (error) {
       ErrorHandler.processWithoutFeedback(error)
     }
-    setIsAppInitialized(true)
   }, [])
 
   const theme = useMemo(() => createTheme(paletteMode), [paletteMode])

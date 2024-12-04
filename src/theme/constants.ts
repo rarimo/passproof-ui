@@ -36,3 +36,15 @@ export const bottomAppearAnimation = keyframes`
     opacity: 1;
   }
 `
+
+export const bouncingAnimation = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(30%);
+  }
+
+  to {
+    opacity: 0.6;
+    transform: translateY(-30%);
+  }
+`

@@ -1,7 +1,8 @@
 import { Box, Stack } from '@mui/material'
 import { useState } from 'react'
 
-import { useWeb3State } from '@/store/web3'
+import { ZKProof } from '@/api/verificator'
+import { useAuthState } from '@/store/auth'
 
 import ConnectWalletStep from './components/ConnectWalletStep'
 import MakeTransactionStep from './components/MakeTransactionStep'
@@ -16,17 +17,25 @@ enum Steps {
 }
 
 export default function Home() {
-  const { isConnected } = useWeb3State()
-  const [step, setStep] = useState<Steps>(isConnected ? Steps.Result : Steps.ConnectWallet)
+  const { isAuthorized } = useAuthState()
+  const [step, setStep] = useState<Steps>(isAuthorized ? Steps.Result : Steps.ConnectWallet)
+  const [proof, setProof] = useState<ZKProof | null>(null)
 
   const renderStep = () => {
     switch (step) {
       case Steps.ConnectWallet:
         return <ConnectWalletStep onConnect={() => setStep(Steps.VerifyProof)} />
       case Steps.VerifyProof:
-        return <QrCodeStep onVerify={() => setStep(Steps.MakeTransaction)} />
+        return (
+          <QrCodeStep
+            onVerify={proof => {
+              setProof(proof)
+              setStep(Steps.MakeTransaction)
+            }}
+          />
+        )
       case Steps.MakeTransaction:
-        return <MakeTransactionStep onSuccess={() => setStep(Steps.Result)} />
+        return <MakeTransactionStep proof={proof} onSuccess={() => setStep(Steps.Result)} />
       case Steps.Result:
         return <ResultStep />
     }

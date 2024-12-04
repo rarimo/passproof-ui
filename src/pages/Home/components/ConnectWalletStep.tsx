@@ -1,21 +1,30 @@
 import { PROVIDERS } from '@distributedlab/w3p'
 import { Button, Link, List, Stack, Typography, useTheme } from '@mui/material'
 
+import { getAuthChallenge } from '@/api/auth'
+import { ErrorHandler } from '@/helpers/error-handler'
 import { isMetamaskInstalled } from '@/helpers/metamask'
-import { useWeb3State, web3Store } from '@/store/web3'
+import { authStore } from '@/store/auth'
+import { web3Store } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
 
 import StepView from './StepView'
 
 export default function ConnectWalletStep({ onConnect }: { onConnect: () => void }) {
-  const { isConnected } = useWeb3State()
   const { palette } = useTheme()
 
   const connectWallet = async () => {
-    if (!isConnected) {
+    try {
       await web3Store.init(PROVIDERS.Metamask)
+
+      const challenge = await getAuthChallenge(web3Store.connectedAccountAddress)
+      const signature = await web3Store.provider.signMessage(challenge)
+
+      await authStore.signIn(web3Store.connectedAccountAddress, signature)
+      onConnect()
+    } catch (error) {
+      ErrorHandler.process(error)
     }
-    onConnect()
   }
 
   return (
