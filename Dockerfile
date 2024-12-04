@@ -1,8 +1,5 @@
 FROM node:18-alpine as builder
 
-ARG VITE_SENTRY_AUTH_TOKEN
-ARG VITE_SENTRY_DSN
-
 WORKDIR /build
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn

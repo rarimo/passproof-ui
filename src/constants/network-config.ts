@@ -11,6 +11,7 @@ export interface NetworkConfig {
   networkName: NetworkName
   rpcUrl: string
   explorerUrl: string
+  erc1155Address: string
 }
 
 export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
@@ -20,6 +21,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'mainnet',
     rpcUrl: 'https://ethereum-rpc.publicnode.com',
     explorerUrl: 'https://etherscan.io',
+    erc1155Address: '0x',
   },
   testnet: {
     chainId: 11155111,
@@ -27,6 +29,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'testnet',
     rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
     explorerUrl: 'https://sepolia.etherscan.io',
+    erc1155Address: '0x',
   },
 }
 
@@ -57,3 +60,4 @@ export const connectorParametersMap = Object.values(networkConfigsMap).reduce(
 )
 
 export const NETWORK_NAME: NetworkName = config.ENV === 'development' ? 'testnet' : 'mainnet'
+export const NETWORK_CONFIG: NetworkConfig = networkConfigsMap[NETWORK_NAME]
