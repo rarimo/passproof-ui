@@ -2,7 +2,13 @@ import { Button, Divider, Link, Stack, Typography, useTheme } from '@mui/materia
 import { useEffect, useMemo } from 'react'
 import { QRCode } from 'react-qrcode-logo'
 
-import { getVerifiedProof, requestVerificationLink, ZKProof } from '@/api/verificator'
+import {
+  getUserVerificationStatus,
+  getVerifiedProof,
+  requestVerificationLink,
+  VerificationStatuses,
+  ZKProof,
+} from '@/api/verificator'
 import LoadingWrapper from '@/common/LoadingWrapper'
 import { useLoading } from '@/hooks/loading'
 import { useWeb3State } from '@/store/web3'
@@ -19,8 +25,8 @@ export default function QrCodeStep({ onVerify }: Props) {
 
   const proofParamsLoader = useLoading('', async () => {
     const { get_proof_params } = await requestVerificationLink({
-      id: connectedAccountAddress,
-      event_id: '0x0',
+      id: connectedAccountAddress.toLowerCase(),
+      event_id: '111186066134341633902189494613533900917417361106374681011849132651019822199',
       uniqueness: true,
     })
 
@@ -37,15 +43,20 @@ export default function QrCodeStep({ onVerify }: Props) {
 
   async function checkVerificationProof() {
     try {
-      const { proof } = await getVerifiedProof(connectedAccountAddress)
-      onVerify(proof)
+      const status = await getUserVerificationStatus(connectedAccountAddress.toLowerCase())
+      if (status !== VerificationStatuses.Verified) return
+
+      const { proof } = await getVerifiedProof(connectedAccountAddress.toLowerCase())
+      if (proof.pub_signals) {
+        onVerify(proof)
+      }
     } catch (error) {
       console.error(error)
     }
   }
 
   useEffect(() => {
-    const intervalId = window.setInterval(checkVerificationProof, 10000)
+    const intervalId = window.setInterval(checkVerificationProof, 2000)
     return () => window.clearInterval(intervalId)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])

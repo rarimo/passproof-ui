@@ -21,15 +21,16 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'mainnet',
     rpcUrl: 'https://ethereum-rpc.publicnode.com',
     explorerUrl: 'https://etherscan.io',
+    // TODO: replace with the actual address
     erc1155Address: '0x',
   },
   testnet: {
-    chainId: 11155111,
-    name: 'Sepolia',
+    chainId: 35443,
+    name: 'Q Testnet',
     networkName: 'testnet',
-    rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
-    explorerUrl: 'https://sepolia.etherscan.io',
-    erc1155Address: '0x',
+    rpcUrl: 'https://rpc.qtestnet.org',
+    explorerUrl: 'https://explorer.qtestnet.org',
+    erc1155Address: '0x5C2b8B3afBd7D4369208DDc98E3b4B7dee5fc9FE',
   },
 }
 

@@ -491,4 +491,11 @@ export const components: Components<Omit<Theme, 'components'>> = {
       }),
     },
   },
+  MuiCircularProgress: {
+    styleOverrides: {
+      colorPrimary: ({ theme }) => ({
+        color: theme.palette.text.primary,
+      }),
+    },
+  },
 }

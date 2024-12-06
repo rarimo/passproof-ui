@@ -1,9 +1,10 @@
 import { Button, Stack, Typography, useTheme } from '@mui/material'
 
+import { getSignedRootState } from '@/api/proof-verification-relayer'
 import { ZKProof } from '@/api/verificator'
 import DotsLoader from '@/common/DotsLoader'
 import LoadingWrapper from '@/common/LoadingWrapper'
-import { sleep } from '@/helpers/promise'
+import { useErc1155 } from '@/hooks/erc-1155'
 import { useLoading } from '@/hooks/loading'
 import UiIcon from '@/ui/UiIcon'
 
@@ -17,12 +18,14 @@ interface Props {
 export default function MakeTransactionStep({ proof, onSuccess }: Props) {
   const { palette } = useTheme()
   const txLoader = useLoading(null, submitTransaction, { loadOnMount: false })
+  const { mintWithSimpleRootTransition } = useErc1155()
 
   async function submitTransaction() {
     if (!proof) throw new Error('Proof is not provided')
 
-    // Simulate transaction sending
-    await sleep(5000)
+    const hexRoot = `0x${BigInt(proof.pub_signals[11]).toString(16)}`
+    const signedRootState = await getSignedRootState(hexRoot)
+    await mintWithSimpleRootTransition(proof, signedRootState)
     onSuccess(proof.pub_signals[0].toString())
   }
 

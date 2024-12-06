@@ -1,6 +1,7 @@
 import { BigNumberish } from 'ethers'
 import { useCallback, useMemo } from 'react'
 
+import { SignedRootStateResponse } from '@/api/proof-verification-relayer'
 import { ZKProof } from '@/api/verificator'
 import { NETWORK_CONFIG } from '@/constants/network-config'
 import { useWeb3State } from '@/store/web3'
@@ -15,23 +16,23 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
     return ERC1155ETH__factory.connect(address, contractConnector)
   }, [contractConnector, address])
 
-  const mintWithRootTransition = useCallback(
-    (proof: ZKProof) => {
+  const mintWithSimpleRootTransition = useCallback(
+    (proof: ZKProof, signedRootState: SignedRootStateResponse) => {
       if (!contractInstance) throw new ReferenceError('Contract instance is not initialized')
 
       return provider.signAndSendTx?.({
         to: address,
         data: contractInterface.encodeFunctionData('mintWithSimpleRootTransition', [
           {
-            newRoot_: 'pubSig11', // TODO
-            transitionTimestamp_: '<be_timestamp>', // TODO
-            proof: '<be_signature>', // TODO
+            newRoot_: proof.pub_signals[11],
+            transitionTimestamp_: signedRootState.timestamp,
+            proof: signedRootState.signature,
           },
           connectedAccountAddress,
-          'pubSig13', // TODO
+          proof.pub_signals[13],
           {
-            nullifier: 'pubSig0', // TODO
-            identityCreationTimestamp: 'BigNumber', // TODO
+            nullifier: proof.pub_signals[0],
+            identityCreationTimestamp: proof.pub_signals[15],
           },
           {
             a: proof.proof.pi_a as [BigNumberish, BigNumberish],
@@ -45,6 +46,6 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
   )
 
   return {
-    mintWithRootTransition,
+    mintWithSimpleRootTransition,
   }
 }

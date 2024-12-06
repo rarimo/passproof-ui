@@ -19,7 +19,7 @@ interface Props<T> extends PropsWithChildren {
 export default function LoadingWrapper<T>({ loader, slots, children }: Props<T>) {
   switch (loader.loadingState) {
     case LoadingStates.Loading:
-      return slots?.loading ?? <CircularProgress color='secondary' sx={{ mx: 'auto', my: 12 }} />
+      return slots?.loading ?? <CircularProgress sx={{ mx: 'auto', my: 12 }} />
     case LoadingStates.Error:
       return slots?.error ?? <ErrorView />
     case LoadingStates.Loaded:

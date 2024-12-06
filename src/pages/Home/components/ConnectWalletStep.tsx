@@ -1,5 +1,6 @@
 import { PROVIDERS } from '@distributedlab/w3p'
 import { Button, Link, List, Stack, Typography, useTheme } from '@mui/material'
+import { useState } from 'react'
 
 import { getAuthChallenge } from '@/api/auth'
 import { ErrorHandler } from '@/helpers/error-handler'
@@ -12,9 +13,11 @@ import StepView from './StepView'
 
 export default function ConnectWalletStep({ onConnect }: { onConnect: () => void }) {
   const { palette } = useTheme()
+  const [isConnecting, setIsConnecting] = useState(false)
 
   const connectWallet = async () => {
     try {
+      setIsConnecting(true)
       await web3Store.init(PROVIDERS.Metamask)
 
       const challenge = await getAuthChallenge(web3Store.connectedAccountAddress)
@@ -24,6 +27,8 @@ export default function ConnectWalletStep({ onConnect }: { onConnect: () => void
       onConnect()
     } catch (error) {
       ErrorHandler.process(error)
+    } finally {
+      setIsConnecting(false)
     }
   }
 
@@ -49,7 +54,12 @@ export default function ConnectWalletStep({ onConnect }: { onConnect: () => void
           </List>
         </Stack>
         {isMetamaskInstalled() ? (
-          <Button fullWidth startIcon={<UiIcon name='metamask' size={5} />} onClick={connectWallet}>
+          <Button
+            fullWidth
+            startIcon={<UiIcon name='metamask' size={5} />}
+            disabled={isConnecting}
+            onClick={connectWallet}
+          >
             Connect MetaMask
           </Button>
         ) : (

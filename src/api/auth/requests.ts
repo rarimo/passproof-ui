@@ -12,7 +12,6 @@ export async function authorizeUser(address: string, signature: string): Promise
         attributes: { signature },
       },
     },
-    headers: { 'X-Auth-Challenge': 'mota' },
   })
 
   return data
@@ -26,7 +25,6 @@ export async function refreshJwt(): Promise<AuthTokensGroup> {
 export async function getAuthChallenge(address: string): Promise<string> {
   const { data } = await api.get<{ challenge: string }>(
     `${ApiServicePaths.Auth}/v1/authorize/${address}/challenge`,
-    { headers: { 'X-Auth-Challenge': 'mota' } },
   )
   return data.challenge
 }

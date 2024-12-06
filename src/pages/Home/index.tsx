@@ -18,7 +18,7 @@ enum Steps {
 
 export default function Home() {
   const { isAuthorized } = useAuthState()
-  const [step, setStep] = useState<Steps>(isAuthorized ? Steps.Result : Steps.ConnectWallet)
+  const [step, setStep] = useState<Steps>(isAuthorized ? Steps.VerifyProof : Steps.ConnectWallet)
   const [proof, setProof] = useState<ZKProof | null>(null)
 
   const renderStep = () => {

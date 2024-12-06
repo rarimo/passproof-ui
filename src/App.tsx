@@ -57,7 +57,7 @@ const App = () => {
               </NetworkWarningProtector>
             </ErrorBoundary>
           ) : (
-            <CircularProgress color='secondary' sx={{ m: 'auto' }} />
+            <CircularProgress sx={{ m: 'auto' }} />
           )}
         </div>
       </ToastsManager>

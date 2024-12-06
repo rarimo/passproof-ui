@@ -15,7 +15,7 @@ export default function OverlaySpinner(props: StackProps) {
       {...props}
       sx={{ backdropFilter: 'blur(5px)', ...props.sx }}
     >
-      <CircularProgress color='inherit' />
+      <CircularProgress />
     </Stack>
   )
 }
