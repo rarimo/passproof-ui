@@ -1,7 +1,8 @@
 export interface VerificationLinkRequest {
   id: string
-  uniqueness: boolean
   event_id: string
+  uniqueness: boolean
+  expiration_lower_bound: boolean
 }
 
 export interface VerificationLinkResponse {

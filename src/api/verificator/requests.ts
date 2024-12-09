@@ -12,6 +12,7 @@ export async function requestVerificationLink({
   id,
   event_id,
   uniqueness,
+  expiration_lower_bound,
 }: VerificationLinkRequest): Promise<VerificationLinkResponse> {
   const res = await api.post<VerificationLinkResponse>(
     `${ApiServicePaths.Verificator}/private/verification-link`,
@@ -20,7 +21,7 @@ export async function requestVerificationLink({
         data: {
           id,
           type: 'user',
-          attributes: { uniqueness, event_id },
+          attributes: { event_id, uniqueness, expiration_lower_bound },
         },
       },
     },

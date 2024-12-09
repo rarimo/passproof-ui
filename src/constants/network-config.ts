@@ -30,7 +30,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'testnet',
     rpcUrl: 'https://rpc.qtestnet.org',
     explorerUrl: 'https://explorer.qtestnet.org',
-    erc1155Address: '0x5C2b8B3afBd7D4369208DDc98E3b4B7dee5fc9FE',
+    erc1155Address: '0x31C366a6C91bb5e8566E98D35702026911133624',
   },
 }
 

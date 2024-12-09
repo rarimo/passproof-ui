@@ -1,4 +1,5 @@
-import { BigNumberish } from 'ethers'
+import { BigNumber, BigNumberish } from 'ethers'
+import { hexlify } from 'ethers/lib/utils'
 import { useCallback, useMemo } from 'react'
 
 import { SignedRootStateResponse } from '@/api/proof-verification-relayer'
@@ -24,20 +25,24 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
         to: address,
         data: contractInterface.encodeFunctionData('mintWithSimpleRootTransition', [
           {
-            newRoot_: proof.pub_signals[11],
-            transitionTimestamp_: signedRootState.timestamp,
-            proof: signedRootState.signature,
+            newRoot_: hexlify(BigInt(proof.pub_signals[11])),
+            transitionTimestamp_: signedRootState.timestamp.toString(),
+            proof: BigNumber.from(`0x${signedRootState.signature}`).add(27).toHexString(),
           },
           connectedAccountAddress,
           proof.pub_signals[13],
           {
             nullifier: proof.pub_signals[0],
             identityCreationTimestamp: proof.pub_signals[15],
+            identityCounter: proof.pub_signals[18],
           },
           {
-            a: proof.proof.pi_a as [BigNumberish, BigNumberish],
-            b: proof.proof.pi_b as [[BigNumberish, BigNumberish], [BigNumberish, BigNumberish]],
-            c: proof.proof.pi_c as [BigNumberish, BigNumberish],
+            a: [proof.proof.pi_a[0], proof.proof.pi_a[1]],
+            b: [
+              proof.proof.pi_b[1] as [BigNumberish, BigNumberish],
+              proof.proof.pi_b[0] as [BigNumberish, BigNumberish],
+            ],
+            c: [proof.proof.pi_c[0], proof.proof.pi_c[1]],
           },
         ]),
       })
