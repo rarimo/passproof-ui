@@ -17,7 +17,7 @@ const [authStore, useAuthState] = createStore(
     async signIn(addr: string, signature: string) {
       const { access_token } = await authorizeUser(addr, signature)
       state.accessToken = access_token.token
-      addAuthInterceptor(state.accessToken, this.signOut)
+      addAuthInterceptor(state.accessToken, () => this.signOut())
     },
 
     signOut() {
@@ -33,7 +33,7 @@ const [authStore, useAuthState] = createStore(
         parsedJwt.sub.toLowerCase() === address.toLowerCase()
 
       if (isJwtValid) {
-        addAuthInterceptor(state.accessToken, this.signOut)
+        addAuthInterceptor(state.accessToken, () => this.signOut())
         return
       }
 

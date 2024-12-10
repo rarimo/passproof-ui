@@ -1,9 +1,9 @@
 import { Button, Divider, Link, Stack, Typography, useTheme } from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
 import { QRCode } from 'react-qrcode-logo'
-import { v4 as uuid } from 'uuid'
 
 import {
+  deleteUser,
   getUserVerificationStatus,
   getVerifiedProof,
   requestVerificationLink,
@@ -11,7 +11,9 @@ import {
   ZKProof,
 } from '@/api/verificator'
 import LoadingWrapper from '@/common/LoadingWrapper'
+import { ErrorHandler } from '@/helpers/error-handler'
 import { useLoading } from '@/hooks/loading'
+import { useWeb3State } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
 
 import StepView from './StepView'
@@ -21,16 +23,18 @@ interface Props {
 }
 
 export default function QrCodeStep({ onVerify }: Props) {
-  const [requestId, setRequestId] = useState(uuid())
+  const { connectedAccountAddress } = useWeb3State()
   const { palette } = useTheme()
 
   const [isVerificationFailed, setIsVerificationFailed] = useState(false)
 
+  const userId = useMemo(() => connectedAccountAddress.toLowerCase(), [connectedAccountAddress])
+
   const proofParamsLoader = useLoading('', async () => {
     const { get_proof_params } = await requestVerificationLink({
-      id: requestId.toLowerCase(),
+      id: userId,
       event_id: '111186066134341633902189494613533900917417361106374681011849132651019822199',
-      uniqueness: false,
+      uniqueness: true,
       expiration_lower_bound: true,
     })
 
@@ -49,7 +53,7 @@ export default function QrCodeStep({ onVerify }: Props) {
     if (isVerificationFailed) return
 
     try {
-      const status = await getUserVerificationStatus(requestId.toLowerCase())
+      const status = await getUserVerificationStatus(userId)
       if (status === VerificationStatuses.NotVerified) return
 
       const isFailed = [
@@ -62,7 +66,7 @@ export default function QrCodeStep({ onVerify }: Props) {
         return
       }
 
-      const { proof } = await getVerifiedProof(requestId.toLowerCase())
+      const { proof } = await getVerifiedProof(userId)
       if (proof.pub_signals) {
         onVerify(proof)
       }
@@ -72,9 +76,14 @@ export default function QrCodeStep({ onVerify }: Props) {
   }
 
   async function retryVerification() {
-    setIsVerificationFailed(false)
-    setRequestId(uuid())
-    await proofParamsLoader.load()
+    try {
+      setIsVerificationFailed(false)
+      await deleteUser(userId)
+      await proofParamsLoader.load()
+    } catch (error) {
+      ErrorHandler.process(error)
+      setIsVerificationFailed(true)
+    }
   }
 
   useEffect(() => {

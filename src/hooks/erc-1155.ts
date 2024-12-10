@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish } from 'ethers'
+import { BigNumber } from 'ethers'
 import { hexlify } from 'ethers/lib/utils'
 import { useCallback, useMemo } from 'react'
 
@@ -39,8 +39,8 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
           {
             a: [proof.proof.pi_a[0], proof.proof.pi_a[1]],
             b: [
-              proof.proof.pi_b[1] as [BigNumberish, BigNumberish],
-              proof.proof.pi_b[0] as [BigNumberish, BigNumberish],
+              [proof.proof.pi_b[0][1], proof.proof.pi_b[0][0]],
+              [proof.proof.pi_b[1][1], proof.proof.pi_b[1][0]],
             ],
             c: [proof.proof.pi_c[0], proof.proof.pi_c[1]],
           },

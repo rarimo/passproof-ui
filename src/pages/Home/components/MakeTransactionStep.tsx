@@ -23,7 +23,7 @@ export default function MakeTransactionStep({ proof, onSuccess }: Props) {
   async function submitTransaction() {
     if (!proof) throw new Error('Proof is not provided')
 
-    const hexRoot = `0x${BigInt(proof.pub_signals[11]).toString(16)}`
+    const hexRoot = BigInt(proof.pub_signals[11]).toString(16).padStart(64, '0')
     const signedRootState = await getSignedRootState(hexRoot)
     await mintWithSimpleRootTransition(proof, signedRootState)
     onSuccess(proof.pub_signals[0].toString())

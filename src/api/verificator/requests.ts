@@ -42,3 +42,7 @@ export async function getVerifiedProof(userId: string): Promise<VerifiedProofRes
   )
   return res.data
 }
+
+export async function deleteUser(userId: string): Promise<void> {
+  await api.delete(`${ApiServicePaths.Verificator}/private/user/${userId}`)
+}
