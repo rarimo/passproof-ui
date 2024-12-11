@@ -11,6 +11,8 @@ import {
   ZKProof,
 } from '@/api/verificator'
 import LoadingWrapper from '@/common/LoadingWrapper'
+import RarimeAppBadges from '@/common/RarimeAppBadges'
+import { isMobile } from '@/helpers/device'
 import { ErrorHandler } from '@/helpers/error-handler'
 import { useLoading } from '@/hooks/loading'
 import { useWeb3State } from '@/store/web3'
@@ -121,16 +123,21 @@ export default function QrCodeStep({ onVerify }: Props) {
         <LoadingWrapper loader={proofParamsLoader}>
           <Stack spacing={4} alignItems='center'>
             <QRCode size={240} value={rariMeDeepLink} />
-            <Stack direction='row' spacing={2} alignItems='center' width='100%'>
-              <Divider sx={{ flex: 1 }} />
-              <Typography variant='body3' color={palette.text.secondary}>
-                OR
-              </Typography>
-              <Divider sx={{ flex: 1 }} />
-            </Stack>
-            <Button component={Link} color='primary' href={rariMeDeepLink} fullWidth>
-              Open in RariMe app
-            </Button>
+            {!isMobile() && (
+              <>
+                <Stack direction='row' spacing={2} alignItems='center' width='100%'>
+                  <Divider sx={{ flex: 1 }} />
+                  <Typography variant='body3' color={palette.text.secondary}>
+                    OR
+                  </Typography>
+                  <Divider sx={{ flex: 1 }} />
+                </Stack>
+                <Button component={Link} color='primary' href={rariMeDeepLink} fullWidth>
+                  Open in RariMe app
+                </Button>
+              </>
+            )}
+            <RarimeAppBadges />
             <Typography variant='body4' color={palette.text.secondary}>
               Waiting for verification...
             </Typography>

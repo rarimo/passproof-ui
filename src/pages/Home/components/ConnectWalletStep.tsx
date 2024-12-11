@@ -1,5 +1,5 @@
 import { PROVIDERS } from '@distributedlab/w3p'
-import { Button, Link, List, Stack, Typography, useTheme } from '@mui/material'
+import { Button, Link, Stack, Typography, useTheme } from '@mui/material'
 import { useState } from 'react'
 
 import { getAuthChallenge } from '@/api/auth'
@@ -33,48 +33,43 @@ export default function ConnectWalletStep({ onConnect }: { onConnect: () => void
   }
 
   return (
-    <StepView title='RariMe Proof Requests' subtitle='Request Proof of Passport'>
-      <Stack spacing={8}>
-        <Stack spacing={1}>
-          <Typography variant='body3' color={palette.text.primary}>
-            The system contains the following components:
-          </Typography>
-          <List sx={{ listStyleType: 'disc', pl: 4 }}>
-            <Typography variant='body3' color={palette.text.primary} component='li'>
-              <strong>3rd Party Mobile Apps and Backend:</strong> external system that integrates
-              the Proof of Passport
-            </Typography>
-            <Typography variant='body3' color={palette.text.primary} component='li'>
-              <strong>RariMe App:</strong> mobile app that generates the proofs
-            </Typography>
-            <Typography variant='body3' color={palette.text.primary} component='li'>
-              <strong>Verificator-svc:</strong> a service that incapsulates ZK proof verification.
-              Self-hosted by the 3rd party.
-            </Typography>
-          </List>
-        </Stack>
-        {isMetamaskInstalled() ? (
-          <Button
-            fullWidth
-            startIcon={<UiIcon name='metamask' size={5} />}
-            disabled={isConnecting}
-            onClick={connectWallet}
-          >
-            Connect MetaMask
-          </Button>
-        ) : (
-          <Button
-            component={Link}
-            href='https://metamask.io'
-            target='_blank'
-            rel='noreferrer'
-            fullWidth
-            startIcon={<UiIcon name='metamask' size={5} />}
-          >
-            Install MetaMask
-          </Button>
-        )}
+    <StepView title='Prove your uniqueness' subtitle='' spacing={6}>
+      <Stack spacing={2}>
+        <Typography variant='body3' color={palette.text.primary}>
+          To repel bots, we need to make sure that you are a <strong>real and unique human</strong>!
+        </Typography>
+        <Typography variant='body3' color={palette.text.primary}>
+          To do this, we&apos;ll request a <strong>zero-knowledge proof</strong> of passport powered
+          by <strong>Rarimo</strong>&apos;s.{' '}
+        </Typography>
+        <Typography variant='body3' color={palette.text.primary}>
+          <strong>No personal info</strong> will leave your mobile device in the process.
+        </Typography>
+        <Typography variant='body3' color={palette.text.primary}>
+          To get started, share your wallet address:
+        </Typography>
       </Stack>
+      {isMetamaskInstalled() ? (
+        <Button
+          fullWidth
+          startIcon={<UiIcon name='metamask' size={5} />}
+          disabled={isConnecting}
+          onClick={connectWallet}
+        >
+          Connect MetaMask
+        </Button>
+      ) : (
+        <Button
+          component={Link}
+          href='https://metamask.io'
+          target='_blank'
+          rel='noreferrer'
+          fullWidth
+          startIcon={<UiIcon name='metamask' size={5} />}
+        >
+          Install MetaMask
+        </Button>
+      )}
     </StepView>
   )
 }

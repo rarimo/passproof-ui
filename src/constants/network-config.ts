@@ -11,7 +11,7 @@ export interface NetworkConfig {
   networkName: NetworkName
   rpcUrl: string
   explorerUrl: string
-  erc1155Address: string
+  erc1155EthAddress: string
 }
 
 export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
@@ -22,7 +22,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     rpcUrl: 'https://ethereum-rpc.publicnode.com',
     explorerUrl: 'https://etherscan.io',
     // TODO: replace with the actual address
-    erc1155Address: '0x',
+    erc1155EthAddress: '0x',
   },
   testnet: {
     chainId: 35443,
@@ -30,7 +30,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'testnet',
     rpcUrl: 'https://rpc.qtestnet.org',
     explorerUrl: 'https://explorer.qtestnet.org',
-    erc1155Address: '0x31C366a6C91bb5e8566E98D35702026911133624',
+    erc1155EthAddress: '0xb950ab58437ADc8b916fCFa570c42dA99D2fe0D5',
   },
 }
 

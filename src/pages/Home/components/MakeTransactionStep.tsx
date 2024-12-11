@@ -4,7 +4,7 @@ import { getSignedRootState } from '@/api/proof-verification-relayer'
 import { ZKProof } from '@/api/verificator'
 import DotsLoader from '@/common/DotsLoader'
 import LoadingWrapper from '@/common/LoadingWrapper'
-import { useErc1155 } from '@/hooks/erc-1155'
+import { useErc1155Eth } from '@/hooks/erc-1155-eth'
 import { useLoading } from '@/hooks/loading'
 import UiIcon from '@/ui/UiIcon'
 
@@ -18,7 +18,7 @@ interface Props {
 export default function MakeTransactionStep({ proof, onSuccess }: Props) {
   const { palette } = useTheme()
   const txLoader = useLoading(null, submitTransaction, { loadOnMount: false })
-  const { mintWithSimpleRootTransition } = useErc1155()
+  const { mintWithSimpleRootTransition } = useErc1155Eth()
 
   async function submitTransaction() {
     if (!proof) throw new Error('Proof is not provided')

@@ -8,7 +8,7 @@ import { NETWORK_CONFIG } from '@/constants/network-config'
 import { useWeb3State } from '@/store/web3'
 import { ERC1155ETH__factory } from '@/types/contracts'
 
-export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
+export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
   const { provider, contractConnector, connectedAccountAddress } = useWeb3State()
   const contractInterface = useMemo(() => ERC1155ETH__factory.createInterface(), [])
 
@@ -18,7 +18,7 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
   }, [contractConnector, address])
 
   const mintWithSimpleRootTransition = useCallback(
-    (proof: ZKProof, signedRootState: SignedRootStateResponse) => {
+    async (proof: ZKProof, signedRootState: SignedRootStateResponse) => {
       if (!contractInstance) throw new ReferenceError('Contract instance is not initialized')
 
       return provider.signAndSendTx?.({
@@ -34,7 +34,7 @@ export function useErc1155(address = NETWORK_CONFIG.erc1155Address) {
           {
             nullifier: proof.pub_signals[0],
             identityCreationTimestamp: proof.pub_signals[15],
-            identityCounter: proof.pub_signals[18],
+            identityCounter: BigInt(proof.pub_signals[17]) - 1n,
           },
           {
             a: [proof.proof.pi_a[0], proof.proof.pi_a[1]],
