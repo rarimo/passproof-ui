@@ -1,8 +1,7 @@
-import { Box, Stack } from '@mui/material'
+import { Box, CircularProgress, Stack } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 import { ZKProof } from '@/api/verificator'
-import LoadingWrapper from '@/common/LoadingWrapper'
 import { useErc1155Eth } from '@/hooks/erc-1155-eth'
 import { LoadingStates, useLoading } from '@/hooks/loading'
 import { useAuthState } from '@/store/auth'
@@ -26,7 +25,10 @@ export default function Home() {
   const [step, setStep] = useState<Steps>(isAuthorized ? Steps.VerifyProof : Steps.ConnectWallet)
   const [proof, setProof] = useState<ZKProof | null>(null)
 
-  const balanceLoader = useLoading(null, getTokenBalance)
+  const balanceLoader = useLoading(null, getTokenBalance, {
+    loadOnMount: isAuthorized,
+    loadArgs: [isAuthorized],
+  })
 
   const renderStep = () => {
     switch (step) {
@@ -58,11 +60,13 @@ export default function Home() {
 
   return (
     <Stack justifyContent='center' alignItems='center' width='100wv' height='100vh'>
-      <LoadingWrapper loader={balanceLoader}>
+      {balanceLoader.loadingState === LoadingStates.Loading ? (
+        <CircularProgress sx={{ mx: 'auto', my: 12 }} />
+      ) : (
         <Box maxWidth={440} width='100%'>
           {renderStep()}
         </Box>
-      </LoadingWrapper>
+      )}
     </Stack>
   )
 }

@@ -19,7 +19,7 @@ export default function ResultStep() {
 
     const uriRes = await fetch(uri.replace('ipfs://', 'https://ipfs.io/'))
     const uriJson = await uriRes.json()
-    return uriJson.image
+    return uriJson.image.replace('ipfs://', 'https://ipfs.io/')
   })
 
   const addTokenLoader = useLoading(

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { ErrorHandler } from '@/helpers/error-handler'
 
 export enum LoadingStates {
+  Initial,
   Loading,
   Error,
   Loaded,
@@ -29,7 +30,7 @@ export function useLoading<T, A>(
   const { loadArgs = [], loadOnMount = true, silent = false } = options ?? {}
 
   const [loadingState, setLoadingState] = useState<LoadingStates>(
-    loadOnMount ? LoadingStates.Loading : LoadingStates.Loaded,
+    loadOnMount ? LoadingStates.Loading : LoadingStates.Initial,
   )
   const [data, setData] = useState(initialData)
 
@@ -46,7 +47,7 @@ export function useLoading<T, A>(
   }
 
   const reset = () => {
-    setLoadingState(LoadingStates.Loaded)
+    setLoadingState(LoadingStates.Initial)
     setData(initialData)
   }
 
