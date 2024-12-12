@@ -22,6 +22,7 @@ export default function LoadingWrapper<T>({ loader, slots, children }: Props<T>)
       return slots?.loading ?? <CircularProgress sx={{ mx: 'auto', my: 12 }} />
     case LoadingStates.Error:
       return slots?.error ?? <ErrorView />
+    case LoadingStates.Initial:
     case LoadingStates.Loaded:
       return children
     default:
