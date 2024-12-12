@@ -1,7 +1,7 @@
 import { Button, Dialog, Stack, Typography, useTheme } from '@mui/material'
 import { PropsWithChildren, useCallback } from 'react'
 
-import { NETWORK_NAME, networkConfigsMap } from '@/constants/network-config'
+import { NETWORK_CONFIG } from '@/constants/network-config'
 import { ErrorHandler } from '@/helpers/error-handler'
 import { useWeb3State, web3Store } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
@@ -15,15 +15,13 @@ export default function NetworkWarningProtector({ title, desc, children }: Props
   const { palette } = useTheme()
   const { isCorrectNetwork, isConnected } = useWeb3State()
 
-  const networkConfig = networkConfigsMap[NETWORK_NAME]
-
   const switchNetwork = useCallback(async () => {
     try {
-      await web3Store.safeSwitchNetwork(networkConfig.chainId)
+      await web3Store.safeSwitchNetwork(NETWORK_CONFIG.chainId)
     } catch (error) {
       ErrorHandler.process(error)
     }
-  }, [networkConfig.chainId])
+  }, [])
 
   if (!isConnected || isCorrectNetwork) {
     return children
@@ -52,12 +50,12 @@ export default function NetworkWarningProtector({ title, desc, children }: Props
         <Stack spacing={2} alignItems='center'>
           <Typography variant='subtitle2'>{title || 'Invalid network'}</Typography>
           <Typography variant='body3' color={palette.text.secondary} maxWidth={360}>
-            {desc || `Please switch to the ${networkConfig.name} network to continue.`}
+            {desc || `Please switch to the ${NETWORK_CONFIG.name} network to continue.`}
           </Typography>
         </Stack>
 
         <Button type='submit' fullWidth onClick={switchNetwork}>
-          {`Switch to ${networkConfig.name}`}
+          {`Switch to ${NETWORK_CONFIG.name}`}
         </Button>
       </Stack>
     </Dialog>

@@ -1,7 +1,10 @@
 import { Box, Stack } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ZKProof } from '@/api/verificator'
+import LoadingWrapper from '@/common/LoadingWrapper'
+import { useErc1155Eth } from '@/hooks/erc-1155-eth'
+import { LoadingStates, useLoading } from '@/hooks/loading'
 import { useAuthState } from '@/store/auth'
 
 import ConnectWalletStep from './components/ConnectWalletStep'
@@ -18,8 +21,12 @@ enum Steps {
 
 export default function Home() {
   const { isAuthorized } = useAuthState()
+  const { getTokenBalance } = useErc1155Eth()
+
   const [step, setStep] = useState<Steps>(isAuthorized ? Steps.VerifyProof : Steps.ConnectWallet)
   const [proof, setProof] = useState<ZKProof | null>(null)
+
+  const balanceLoader = useLoading(null, getTokenBalance)
 
   const renderStep = () => {
     switch (step) {
@@ -41,11 +48,21 @@ export default function Home() {
     }
   }
 
+  useEffect(() => {
+    if (!isAuthorized) return
+
+    if (balanceLoader.loadingState === LoadingStates.Loaded && !balanceLoader.data?.isZero()) {
+      setStep(Steps.Result)
+    }
+  }, [balanceLoader.loadingState, balanceLoader.data, isAuthorized])
+
   return (
     <Stack justifyContent='center' alignItems='center' width='100wv' height='100vh'>
-      <Box maxWidth={440} width='100%'>
-        {renderStep()}
-      </Box>
+      <LoadingWrapper loader={balanceLoader}>
+        <Box maxWidth={440} width='100%'>
+          {renderStep()}
+        </Box>
+      </LoadingWrapper>
     </Stack>
   )
 }

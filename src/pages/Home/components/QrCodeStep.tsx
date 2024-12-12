@@ -14,6 +14,7 @@ import LoadingWrapper from '@/common/LoadingWrapper'
 import RarimeAppBadges from '@/common/RarimeAppBadges'
 import { isMobile } from '@/helpers/device'
 import { ErrorHandler } from '@/helpers/error-handler'
+import { MAGIC_TOKEN_ID } from '@/hooks/erc-1155-eth'
 import { useLoading } from '@/hooks/loading'
 import { useWeb3State } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
@@ -35,7 +36,7 @@ export default function QrCodeStep({ onVerify }: Props) {
   const proofParamsLoader = useLoading('', async () => {
     const { get_proof_params } = await requestVerificationLink({
       id: userId,
-      event_id: '111186066134341633902189494613533900917417361106374681011849132651019822199',
+      event_id: MAGIC_TOKEN_ID,
       uniqueness: true,
       expiration_lower_bound: true,
     })

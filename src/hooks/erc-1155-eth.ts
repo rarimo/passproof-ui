@@ -8,6 +8,9 @@ import { NETWORK_CONFIG } from '@/constants/network-config'
 import { useWeb3State } from '@/store/web3'
 import { ERC1155ETH__factory } from '@/types/contracts'
 
+export const MAGIC_TOKEN_ID =
+  '111186066134341633902189494613533900917417361106374681011849132651019822199'
+
 export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
   const { provider, contractConnector, connectedAccountAddress } = useWeb3State()
   const contractInterface = useMemo(() => ERC1155ETH__factory.createInterface(), [])
@@ -16,6 +19,18 @@ export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
     if (!address || !contractConnector) return null
     return ERC1155ETH__factory.connect(address, contractConnector)
   }, [contractConnector, address])
+
+  const getTokenBalance = useCallback(async () => {
+    if (!contractInstance) return null
+
+    return contractInstance.balanceOf(connectedAccountAddress, MAGIC_TOKEN_ID)
+  }, [contractInstance, connectedAccountAddress])
+
+  const getUri = useCallback(async () => {
+    if (!contractInstance) return null
+
+    return contractInstance.uri(MAGIC_TOKEN_ID)
+  }, [contractInstance])
 
   const mintWithSimpleRootTransition = useCallback(
     async (proof: ZKProof, signedRootState: SignedRootStateResponse) => {
@@ -51,6 +66,8 @@ export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
   )
 
   return {
+    getTokenBalance,
+    getUri,
     mintWithSimpleRootTransition,
   }
 }

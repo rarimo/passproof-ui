@@ -25,12 +25,12 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     erc1155EthAddress: '0x',
   },
   testnet: {
-    chainId: 35443,
-    name: 'Q Testnet',
+    chainId: 11155111,
+    name: 'Sepolia',
     networkName: 'testnet',
-    rpcUrl: 'https://rpc.qtestnet.org',
-    explorerUrl: 'https://explorer.qtestnet.org',
-    erc1155EthAddress: '0xb950ab58437ADc8b916fCFa570c42dA99D2fe0D5',
+    rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
+    explorerUrl: 'https://sepolia.etherscan.io',
+    erc1155EthAddress: '0x434c891e136fc1DC112FE897Ac0Eb7FA4285e34b',
   },
 }
 
