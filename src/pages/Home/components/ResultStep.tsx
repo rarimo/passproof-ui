@@ -17,7 +17,7 @@ export default function ResultStep() {
     const uri = await getUri()
     if (!uri) return null
 
-    const uriRes = await fetch(uri.replace('ipfs://', 'https://ipfs.io/ipfs/'))
+    const uriRes = await fetch(uri.replace('ipfs://', 'https://ipfs.io/'))
     const uriJson = await uriRes.json()
     return uriJson.image
   })
