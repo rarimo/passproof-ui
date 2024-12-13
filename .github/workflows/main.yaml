@@ -3,6 +3,7 @@ on:
     branches:
       - "main"
       - "devops/ci"
+      - "staging/sepolia"
 
 jobs:
   converge:
@@ -48,6 +49,6 @@ jobs:
         - name: ConfigCreate
           run: |
             mkdir ~/.kube/
-            echo "${{ secrets.K8SCONFIG_DEV }}" | base64 -d > config
+            echo "${{ secrets.K8SCONFIG_MAIN }}" | base64 -d > config
             mv config ~/.kube/
             kubectl set image deployment sublinear-ui sublinear-ui=ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA -n sublinear
