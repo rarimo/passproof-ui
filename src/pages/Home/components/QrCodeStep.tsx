@@ -124,7 +124,7 @@ export default function QrCodeStep({ onVerify }: Props) {
         <LoadingWrapper loader={proofParamsLoader}>
           <Stack spacing={4} alignItems='center'>
             <QRCode size={240} value={rariMeDeepLink} />
-            {!isMobile() && (
+            {isMobile() && (
               <>
                 <Stack direction='row' spacing={2} alignItems='center' width='100%'>
                   <Divider sx={{ flex: 1 }} />
