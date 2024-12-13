@@ -30,7 +30,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'testnet',
     rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
     explorerUrl: 'https://sepolia.etherscan.io',
-    erc1155EthAddress: '0x434c891e136fc1DC112FE897Ac0Eb7FA4285e34b',
+    erc1155EthAddress: '0xb81Ec49Cfa52DA11B349EaBb3CD245707a6C3fB3',
   },
 }
 
