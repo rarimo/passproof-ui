@@ -8,6 +8,11 @@ import type { ERC1155ETH, ERC1155ETHInterface } from "../ERC1155ETH";
 
 const _abi = [
   {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -16,6 +21,11 @@ const _abi = [
       },
     ],
     name: "AddressEmptyCode",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "BurnAndTransferAreNotAllowed",
     type: "error",
   },
   {
@@ -139,6 +149,27 @@ const _abi = [
   {
     inputs: [],
     name: "FailedCall",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "encodedDate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "encodedDateTimestamp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "blockTimestamp",
+        type: "uint256",
+      },
+    ],
+    name: "InvalidCurrentDate",
     type: "error",
   },
   {
@@ -423,19 +454,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "IDENTITY_LIMIT",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "PROOF_SIGNALS_COUNT",
     outputs: [
       {
@@ -489,11 +507,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "magicTokenId_",
-        type: "uint256",
-      },
-      {
         internalType: "address",
         name: "identityProofVerifier_",
         type: "address",
@@ -503,75 +516,13 @@ const _abi = [
         name: "state_",
         type: "address",
       },
+      {
+        internalType: "string",
+        name: "uri_",
+        type: "string",
+      },
     ],
     name: "__ERC1155ETH_init",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bytes32",
-        name: "registrationRoot_",
-        type: "bytes32",
-      },
-      {
-        internalType: "address",
-        name: "receiver_",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "currentDate_",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "nullifier",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "identityCreationTimestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "identityCounter",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct ERC1155ETH.UserData",
-        name: "userData_",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "uint256[2]",
-            name: "a",
-            type: "uint256[2]",
-          },
-          {
-            internalType: "uint256[2][2]",
-            name: "b",
-            type: "uint256[2][2]",
-          },
-          {
-            internalType: "uint256[2]",
-            name: "c",
-            type: "uint256[2]",
-          },
-        ],
-        internalType: "struct VerifierHelper.ProofPoints",
-        name: "zkPoints_",
-        type: "tuple",
-      },
-    ],
-    name: "_mintLogic",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -707,24 +658,16 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "magicTokenId",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "bytes32",
         name: "registrationRoot_",
         type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
       },
       {
         internalType: "address",
@@ -792,12 +735,12 @@ const _abi = [
         components: [
           {
             internalType: "bytes32",
-            name: "newRoot_",
+            name: "newRoot",
             type: "bytes32",
           },
           {
             internalType: "uint256",
-            name: "transitionTimestamp_",
+            name: "transitionTimestamp",
             type: "uint256",
           },
           {
@@ -809,6 +752,11 @@ const _abi = [
         internalType: "struct ERC1155ETH.TransitionData",
         name: "transitionData_",
         type: "tuple",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
       },
       {
         internalType: "address",
@@ -876,12 +824,12 @@ const _abi = [
         components: [
           {
             internalType: "bytes32",
-            name: "newRoot_",
+            name: "newRoot",
             type: "bytes32",
           },
           {
             internalType: "uint256",
-            name: "transitionTimestamp_",
+            name: "transitionTimestamp",
             type: "uint256",
           },
           {
@@ -893,6 +841,11 @@ const _abi = [
         internalType: "struct ERC1155ETH.TransitionData",
         name: "transitionData_",
         type: "tuple",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId_",
+        type: "uint256",
       },
       {
         internalType: "address",
@@ -1086,6 +1039,19 @@ const _abi = [
       },
     ],
     name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "newURI_",
+        type: "string",
+      },
+    ],
+    name: "setURI",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
