@@ -41,14 +41,14 @@ export declare namespace ERC1155ETH {
   };
 
   export type TransitionDataStruct = {
-    newRoot_: BytesLike;
-    transitionTimestamp_: BigNumberish;
+    newRoot: BytesLike;
+    transitionTimestamp: BigNumberish;
     proof: BytesLike;
   };
 
   export type TransitionDataStructOutput = [string, BigNumber, string] & {
-    newRoot_: string;
-    transitionTimestamp_: BigNumber;
+    newRoot: string;
+    transitionTimestamp: BigNumber;
     proof: string;
   };
 }
@@ -73,13 +73,11 @@ export declare namespace VerifierHelper {
 
 export interface ERC1155ETHInterface extends utils.Interface {
   functions: {
-    "IDENTITY_LIMIT()": FunctionFragment;
     "PROOF_SIGNALS_COUNT()": FunctionFragment;
     "SELECTOR()": FunctionFragment;
     "UPGRADE_INTERFACE_VERSION()": FunctionFragment;
     "ZERO_DATE()": FunctionFragment;
-    "__ERC1155ETH_init(uint256,address,address)": FunctionFragment;
-    "_mintLogic(bytes32,address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
+    "__ERC1155ETH_init(address,address,string)": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
     "identityProofVerifier()": FunctionFragment;
@@ -87,10 +85,9 @@ export interface ERC1155ETHInterface extends utils.Interface {
     "initTimestamp()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "isNullifierUsed(uint256)": FunctionFragment;
-    "magicTokenId()": FunctionFragment;
-    "mint(bytes32,address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
-    "mintWithRootTransition((bytes32,uint256,bytes),address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
-    "mintWithSimpleRootTransition((bytes32,uint256,bytes),address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
+    "mint(bytes32,uint256,address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
+    "mintWithRootTransition((bytes32,uint256,bytes),uint256,address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
+    "mintWithSimpleRootTransition((bytes32,uint256,bytes),uint256,address,uint256,(uint256,uint256,uint256),(uint256[2],uint256[2][2],uint256[2]))": FunctionFragment;
     "nullifiers(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
@@ -98,6 +95,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setURI(string)": FunctionFragment;
     "state()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -107,13 +105,11 @@ export interface ERC1155ETHInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "IDENTITY_LIMIT"
       | "PROOF_SIGNALS_COUNT"
       | "SELECTOR"
       | "UPGRADE_INTERFACE_VERSION"
       | "ZERO_DATE"
       | "__ERC1155ETH_init"
-      | "_mintLogic"
       | "balanceOf"
       | "balanceOfBatch"
       | "identityProofVerifier"
@@ -121,7 +117,6 @@ export interface ERC1155ETHInterface extends utils.Interface {
       | "initTimestamp"
       | "isApprovedForAll"
       | "isNullifierUsed"
-      | "magicTokenId"
       | "mint"
       | "mintWithRootTransition"
       | "mintWithSimpleRootTransition"
@@ -132,6 +127,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
       | "safeBatchTransferFrom"
       | "safeTransferFrom"
       | "setApprovalForAll"
+      | "setURI"
       | "state"
       | "supportsInterface"
       | "transferOwnership"
@@ -139,10 +135,6 @@ export interface ERC1155ETHInterface extends utils.Interface {
       | "uri"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "IDENTITY_LIMIT",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "PROOF_SIGNALS_COUNT",
     values?: undefined
@@ -155,17 +147,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "ZERO_DATE", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "__ERC1155ETH_init",
-    values: [BigNumberish, string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "_mintLogic",
-    values: [
-      BytesLike,
-      string,
-      BigNumberish,
-      ERC1155ETH.UserDataStruct,
-      VerifierHelper.ProofPointsStruct
-    ]
+    values: [string, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
@@ -196,13 +178,10 @@ export interface ERC1155ETHInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "magicTokenId",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "mint",
     values: [
       BytesLike,
+      BigNumberish,
       string,
       BigNumberish,
       ERC1155ETH.UserDataStruct,
@@ -213,6 +192,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
     functionFragment: "mintWithRootTransition",
     values: [
       ERC1155ETH.TransitionDataStruct,
+      BigNumberish,
       string,
       BigNumberish,
       ERC1155ETH.UserDataStruct,
@@ -223,6 +203,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
     functionFragment: "mintWithSimpleRootTransition",
     values: [
       ERC1155ETH.TransitionDataStruct,
+      BigNumberish,
       string,
       BigNumberish,
       ERC1155ETH.UserDataStruct,
@@ -254,6 +235,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
+  encodeFunctionData(functionFragment: "setURI", values: [string]): string;
   encodeFunctionData(functionFragment: "state", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -270,10 +252,6 @@ export interface ERC1155ETHInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
   decodeFunctionResult(
-    functionFragment: "IDENTITY_LIMIT",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "PROOF_SIGNALS_COUNT",
     data: BytesLike
   ): Result;
@@ -287,7 +265,6 @@ export interface ERC1155ETHInterface extends utils.Interface {
     functionFragment: "__ERC1155ETH_init",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "_mintLogic", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "balanceOfBatch",
@@ -311,10 +288,6 @@ export interface ERC1155ETHInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isNullifierUsed",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "magicTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
@@ -348,6 +321,7 @@ export interface ERC1155ETHInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setURI", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "state", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
@@ -499,8 +473,6 @@ export interface ERC1155ETH extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    IDENTITY_LIMIT(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     PROOF_SIGNALS_COUNT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     SELECTOR(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -510,18 +482,9 @@ export interface ERC1155ETH extends BaseContract {
     ZERO_DATE(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     __ERC1155ETH_init(
-      magicTokenId_: BigNumberish,
       identityProofVerifier_: string,
       state_: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>;
-
-    _mintLogic(
-      registrationRoot_: BytesLike,
-      receiver_: string,
-      currentDate_: BigNumberish,
-      userData_: ERC1155ETH.UserDataStruct,
-      zkPoints_: VerifierHelper.ProofPointsStruct,
+      uri_: string,
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
@@ -554,10 +517,9 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    magicTokenId(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     mint(
       registrationRoot_: BytesLike,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -567,6 +529,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -576,6 +539,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithSimpleRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -620,6 +584,11 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
+    setURI(
+      newURI_: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
+
     state(overrides?: CallOverrides): Promise<[string]>;
 
     supportsInterface(
@@ -641,8 +610,6 @@ export interface ERC1155ETH extends BaseContract {
     uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
   };
 
-  IDENTITY_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
-
   PROOF_SIGNALS_COUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
   SELECTOR(overrides?: CallOverrides): Promise<BigNumber>;
@@ -652,18 +619,9 @@ export interface ERC1155ETH extends BaseContract {
   ZERO_DATE(overrides?: CallOverrides): Promise<BigNumber>;
 
   __ERC1155ETH_init(
-    magicTokenId_: BigNumberish,
     identityProofVerifier_: string,
     state_: string,
-    overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>;
-
-  _mintLogic(
-    registrationRoot_: BytesLike,
-    receiver_: string,
-    currentDate_: BigNumberish,
-    userData_: ERC1155ETH.UserDataStruct,
-    zkPoints_: VerifierHelper.ProofPointsStruct,
+    uri_: string,
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
@@ -696,10 +654,9 @@ export interface ERC1155ETH extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  magicTokenId(overrides?: CallOverrides): Promise<BigNumber>;
-
   mint(
     registrationRoot_: BytesLike,
+    tokenId_: BigNumberish,
     receiver_: string,
     currentDate_: BigNumberish,
     userData_: ERC1155ETH.UserDataStruct,
@@ -709,6 +666,7 @@ export interface ERC1155ETH extends BaseContract {
 
   mintWithRootTransition(
     transitionData_: ERC1155ETH.TransitionDataStruct,
+    tokenId_: BigNumberish,
     receiver_: string,
     currentDate_: BigNumberish,
     userData_: ERC1155ETH.UserDataStruct,
@@ -718,6 +676,7 @@ export interface ERC1155ETH extends BaseContract {
 
   mintWithSimpleRootTransition(
     transitionData_: ERC1155ETH.TransitionDataStruct,
+    tokenId_: BigNumberish,
     receiver_: string,
     currentDate_: BigNumberish,
     userData_: ERC1155ETH.UserDataStruct,
@@ -759,6 +718,11 @@ export interface ERC1155ETH extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  setURI(
+    newURI_: string,
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
   state(overrides?: CallOverrides): Promise<string>;
 
   supportsInterface(
@@ -780,8 +744,6 @@ export interface ERC1155ETH extends BaseContract {
   uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    IDENTITY_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
-
     PROOF_SIGNALS_COUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
     SELECTOR(overrides?: CallOverrides): Promise<BigNumber>;
@@ -791,18 +753,9 @@ export interface ERC1155ETH extends BaseContract {
     ZERO_DATE(overrides?: CallOverrides): Promise<BigNumber>;
 
     __ERC1155ETH_init(
-      magicTokenId_: BigNumberish,
       identityProofVerifier_: string,
       state_: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    _mintLogic(
-      registrationRoot_: BytesLike,
-      receiver_: string,
-      currentDate_: BigNumberish,
-      userData_: ERC1155ETH.UserDataStruct,
-      zkPoints_: VerifierHelper.ProofPointsStruct,
+      uri_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -835,10 +788,9 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    magicTokenId(overrides?: CallOverrides): Promise<BigNumber>;
-
     mint(
       registrationRoot_: BytesLike,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -848,6 +800,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -857,6 +810,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithSimpleRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -895,6 +849,8 @@ export interface ERC1155ETH extends BaseContract {
       approved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setURI(newURI_: string, overrides?: CallOverrides): Promise<void>;
 
     state(overrides?: CallOverrides): Promise<string>;
 
@@ -995,8 +951,6 @@ export interface ERC1155ETH extends BaseContract {
   };
 
   estimateGas: {
-    IDENTITY_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
-
     PROOF_SIGNALS_COUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
     SELECTOR(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1006,18 +960,9 @@ export interface ERC1155ETH extends BaseContract {
     ZERO_DATE(overrides?: CallOverrides): Promise<BigNumber>;
 
     __ERC1155ETH_init(
-      magicTokenId_: BigNumberish,
       identityProofVerifier_: string,
       state_: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<BigNumber>;
-
-    _mintLogic(
-      registrationRoot_: BytesLike,
-      receiver_: string,
-      currentDate_: BigNumberish,
-      userData_: ERC1155ETH.UserDataStruct,
-      zkPoints_: VerifierHelper.ProofPointsStruct,
+      uri_: string,
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
@@ -1050,10 +995,9 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    magicTokenId(overrides?: CallOverrides): Promise<BigNumber>;
-
     mint(
       registrationRoot_: BytesLike,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1063,6 +1007,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1072,6 +1017,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithSimpleRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1116,6 +1062,11 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
 
+    setURI(
+      newURI_: string,
+      overrides?: Overrides & { from?: string }
+    ): Promise<BigNumber>;
+
     state(overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
@@ -1138,8 +1089,6 @@ export interface ERC1155ETH extends BaseContract {
   };
 
   populateTransaction: {
-    IDENTITY_LIMIT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     PROOF_SIGNALS_COUNT(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -1153,18 +1102,9 @@ export interface ERC1155ETH extends BaseContract {
     ZERO_DATE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     __ERC1155ETH_init(
-      magicTokenId_: BigNumberish,
       identityProofVerifier_: string,
       state_: string,
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>;
-
-    _mintLogic(
-      registrationRoot_: BytesLike,
-      receiver_: string,
-      currentDate_: BigNumberish,
-      userData_: ERC1155ETH.UserDataStruct,
-      zkPoints_: VerifierHelper.ProofPointsStruct,
+      uri_: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
@@ -1199,10 +1139,9 @@ export interface ERC1155ETH extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    magicTokenId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     mint(
       registrationRoot_: BytesLike,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1212,6 +1151,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1221,6 +1161,7 @@ export interface ERC1155ETH extends BaseContract {
 
     mintWithSimpleRootTransition(
       transitionData_: ERC1155ETH.TransitionDataStruct,
+      tokenId_: BigNumberish,
       receiver_: string,
       currentDate_: BigNumberish,
       userData_: ERC1155ETH.UserDataStruct,
@@ -1262,6 +1203,11 @@ export interface ERC1155ETH extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    setURI(
+      newURI_: string,
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 

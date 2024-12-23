@@ -8,9 +8,6 @@ import { NETWORK_CONFIG } from '@/constants/network-config'
 import { useWeb3State } from '@/store/web3'
 import { ERC1155ETH__factory } from '@/types/contracts'
 
-export const MAGIC_TOKEN_ID =
-  '111186066134341633902189494613533900917417361106374681011849132651019822199'
-
 export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
   const { provider, contractConnector, connectedAccountAddress } = useWeb3State()
   const contractInterface = useMemo(() => ERC1155ETH__factory.createInterface(), [])
@@ -23,13 +20,13 @@ export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
   const getTokenBalance = useCallback(async () => {
     if (!contractInstance) return null
 
-    return contractInstance.balanceOf(connectedAccountAddress, MAGIC_TOKEN_ID)
+    return contractInstance.balanceOf(connectedAccountAddress, NETWORK_CONFIG.magicTokenId)
   }, [contractInstance, connectedAccountAddress])
 
   const getUri = useCallback(async () => {
     if (!contractInstance) return null
 
-    return contractInstance.uri(MAGIC_TOKEN_ID)
+    return contractInstance.uri(NETWORK_CONFIG.magicTokenId)
   }, [contractInstance])
 
   const mintWithSimpleRootTransition = useCallback(
@@ -40,10 +37,11 @@ export function useErc1155Eth(address = NETWORK_CONFIG.erc1155EthAddress) {
         to: address,
         data: contractInterface.encodeFunctionData('mintWithSimpleRootTransition', [
           {
-            newRoot_: hexlify(BigInt(proof.pub_signals[11])),
-            transitionTimestamp_: signedRootState.timestamp.toString(),
+            newRoot: hexlify(BigInt(proof.pub_signals[11])),
+            transitionTimestamp: signedRootState.timestamp.toString(),
             proof: BigNumber.from(`0x${signedRootState.signature}`).add(27).toHexString(),
           },
+          NETWORK_CONFIG.magicTokenId,
           connectedAccountAddress,
           proof.pub_signals[13],
           {

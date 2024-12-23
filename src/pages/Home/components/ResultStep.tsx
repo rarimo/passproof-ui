@@ -3,7 +3,7 @@ import { Box, Button, Divider, Paper, Stack, Typography, useTheme } from '@mui/m
 
 import LoadingWrapper from '@/common/LoadingWrapper'
 import { NETWORK_CONFIG } from '@/constants/network-config'
-import { MAGIC_TOKEN_ID, useErc1155Eth } from '@/hooks/erc-1155-eth'
+import { useErc1155Eth } from '@/hooks/erc-1155-eth'
 import { LoadingStates, useLoading } from '@/hooks/loading'
 import { useWeb3State } from '@/store/web3'
 import UiIcon from '@/ui/UiIcon'
@@ -42,7 +42,7 @@ export default function ResultStep() {
         type: 'ERC1155',
         options: {
           address: NETWORK_CONFIG.erc1155EthAddress,
-          tokenId: MAGIC_TOKEN_ID,
+          tokenId: NETWORK_CONFIG.magicTokenId,
           image: imageLoader.data,
           name: 'ERC-1155 Token',
           symbol: 'ERC1155',

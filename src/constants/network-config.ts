@@ -12,6 +12,7 @@ export interface NetworkConfig {
   rpcUrl: string
   explorerUrl: string
   erc1155EthAddress: string
+  magicTokenId: string
 }
 
 export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
@@ -23,6 +24,7 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     explorerUrl: 'https://etherscan.io',
     // TODO: replace with the actual address
     erc1155EthAddress: '0x',
+    magicTokenId: '0',
   },
   testnet: {
     chainId: 11155111,
@@ -30,7 +32,8 @@ export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
     networkName: 'testnet',
     rpcUrl: 'https://ethereum-sepolia-rpc.publicnode.com',
     explorerUrl: 'https://sepolia.etherscan.io',
-    erc1155EthAddress: '0xb81Ec49Cfa52DA11B349EaBb3CD245707a6C3fB3',
+    erc1155EthAddress: '0x753Aa5820692A10f092D53C9D4f5B5c68B923175',
+    magicTokenId: '272217765450477592751209076624575168512',
   },
 }
 
