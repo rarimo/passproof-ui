@@ -17,14 +17,13 @@ export interface NetworkConfig {
 
 export const networkConfigsMap: Record<NetworkName, NetworkConfig> = {
   mainnet: {
-    chainId: 1,
-    name: 'Ethereum Mainnet',
+    chainId: 8453,
+    name: 'Base Mainnet',
     networkName: 'mainnet',
-    rpcUrl: 'https://ethereum-rpc.publicnode.com',
-    explorerUrl: 'https://etherscan.io',
-    // TODO: replace with the actual address
-    erc1155EthAddress: '0x',
-    magicTokenId: '0',
+    rpcUrl: 'https://mainnet.base.org',
+    explorerUrl: 'https://base.etherscan.io',
+    erc1155EthAddress: '0xD5d312Df6E4D9919E5865A3884E32cbD22D91783',
+    magicTokenId: '172217765450477592751209076624575168512',
   },
   testnet: {
     chainId: 11155111,

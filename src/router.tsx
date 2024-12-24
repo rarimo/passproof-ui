@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
+import { createHashRouter, Navigate, Outlet } from 'react-router-dom'
 
 import { RoutePaths } from '@/enums/routes'
 import Home from '@/pages/Home'
@@ -6,7 +6,7 @@ import Home from '@/pages/Home'
 import ErrorBoundaryFallback from './common/ErrorBoundaryFallback'
 
 export const createRouter = () => {
-  return createBrowserRouter([
+  return createHashRouter([
     {
       path: RoutePaths.Home,
       element: <Outlet />,
