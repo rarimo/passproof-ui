@@ -15,8 +15,8 @@ function AppBadge({ type, link }: AppBadgeProps) {
 
   const imgSrc = useMemo(() => {
     const srcRecord: Record<AppBadgeType, string> = {
-      'app-store': '/imgs/app-store-badge.svg',
-      'google-play': '/imgs/google-play-badge.svg',
+      'app-store': './imgs/app-store-badge.svg',
+      'google-play': './imgs/google-play-badge.svg',
     }
 
     return srcRecord[type]

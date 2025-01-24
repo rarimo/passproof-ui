@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
       }),
       createHtmlPlugin({
         minify: true,
-        entry: '/src/main.tsx',
+        entry: './src/main.tsx',
         inject: {
           data: { host: env.VITE_APP_HOST_URL },
         },

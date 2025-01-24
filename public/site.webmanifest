@@ -3,12 +3,12 @@
   "short_name": "rarime-app",
   "icons": [
     {
-      "src": "/branding/android-chrome-192x192.png",
+      "src": "./branding/android-chrome-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/branding/android-chrome-256x256.png",
+      "src": "./branding/android-chrome-256x256.png",
       "sizes": "256x256",
       "type": "image/png"
     }

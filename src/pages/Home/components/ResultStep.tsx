@@ -79,7 +79,7 @@ export default function ResultStep() {
             ? 'Added to MetaMask'
             : addTokenLoader.loadingState === LoadingStates.Loading
               ? 'Adding...'
-              : 'Add to MetaMask'}
+              : 'Add to a wallet'}
         </Button>
       </LoadingWrapper>
     </Paper>
